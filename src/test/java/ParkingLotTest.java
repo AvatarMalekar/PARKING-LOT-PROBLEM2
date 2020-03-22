@@ -4,8 +4,8 @@ import org.junit.Test;
 
 public class ParkingLotTest {
     @Test
-    public void Welcome_message() {
+    public void givenVehicle_WhenParked_ShouldReturnTrue() {
         ParkingLot parkingLot=new ParkingLot();
-        parkingLot.showWelcomeMessage();
+        boolean park = parkingLot.parkVehicle(new Object());
     }
 }
