@@ -1,3 +1,4 @@
+import ParkingLotMain.AirportSecurity;
 import ParkingLotMain.ParkingLot;
 import ParkingLotMain.ParkingLotOwner;
 import org.junit.Assert;
@@ -8,12 +9,14 @@ public class ParkingLotTest {
     ParkingLot parkingLot;
     Object vehicle;
     ParkingLotOwner parkingLotOwner;
+    AirportSecurity airportSecurity;
     
     @Before
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
         parkingLot=new ParkingLot();
         vehicle=new Object();
+        airportSecurity=new AirportSecurity();
     }
 
     @Test
@@ -35,6 +38,13 @@ public class ParkingLotTest {
     public void givenWhenParkingLotIsFull_ShouldInformTheOwner() {
         parkingLot.parkVehicle(vehicle);
         boolean capacityFull = parkingLotOwner.isCapacityFull();
+        Assert.assertTrue(capacityFull);
+    }
+
+    @Test
+    public void givenWhenParkingLotIsFull_ShouldInformTheAirportSecurity() {
+        parkingLot.parkVehicle(vehicle);
+        boolean capacityFull = airportSecurity.isCapacityFull();
         Assert.assertTrue(capacityFull);
     }
 }
