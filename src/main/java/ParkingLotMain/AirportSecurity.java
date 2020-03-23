@@ -1,8 +1,6 @@
 package ParkingLotMain;
 
-import Interfaces.ParkingLotInterface;
-
-public class ParkingLotOwner implements ParkingLotInterface {
+public class AirportSecurity {
     public static boolean parkingLotCapacity=false;
 
     public void capacityStatus(boolean status){

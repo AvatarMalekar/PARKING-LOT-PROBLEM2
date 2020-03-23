@@ -11,9 +11,9 @@ public class ParkingLotTest {
     
     @Before
     public void setUp() throws Exception {
+        parkingLotOwner=new ParkingLotOwner();
         parkingLot=new ParkingLot();
         vehicle=new Object();
-        parkingLotOwner=new ParkingLotOwner();
     }
 
     @Test

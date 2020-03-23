@@ -5,16 +5,18 @@ import ParkingException.ParkingLotException;
 public class ParkingLot {
     Object vehicle;
     ParkingLotOwner parkingLotOwner;
+    AirportSecurity airportSecurity;
 
     public ParkingLot() {
         parkingLotOwner=new ParkingLotOwner();
+        airportSecurity=new AirportSecurity();
     }
 
     public void parkVehicle(Object vehicle) {
         if(this.vehicle!=null)
             throw new ParkingLotException("Parking Lot is Full");
         this.vehicle=vehicle;
-        parkingLotOwner.capacityStatus(true);
+        this.updateObservers(true);
     }
 
     public boolean isVehicleParked(Object vehicle){
@@ -27,13 +29,17 @@ public class ParkingLot {
             throw new ParkingLotException("Parking Lot is Empty");
         if(this.vehicle.equals(vehicle))
             this.vehicle=null;
-        parkingLotOwner.capacityStatus(false);
+        this.updateObservers(true);
     }
 
     public boolean isVehicleUnParked() {
         if(this.vehicle==null)
             return true;
         return false;
+    }
+    public void updateObservers(boolean status){
+        parkingLotOwner.capacityStatus(status);
+        airportSecurity.capacityStatus(status);
     }
 
 }
