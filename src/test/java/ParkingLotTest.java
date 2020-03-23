@@ -1,5 +1,5 @@
-import ParkingException.ParkingLotException;
 import ParkingLotMain.ParkingLot;
+import ParkingLotMain.ParkingLotOwner;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,11 +7,13 @@ import org.junit.Test;
 public class ParkingLotTest {
     ParkingLot parkingLot;
     Object vehicle;
+    ParkingLotOwner parkingLotOwner;
     
     @Before
     public void setUp() throws Exception {
         parkingLot=new ParkingLot();
         vehicle=new Object();
+        parkingLotOwner=new ParkingLotOwner();
     }
 
     @Test
@@ -27,5 +29,12 @@ public class ParkingLotTest {
         parkingLot.unParkVehicle(vehicle);
         boolean isVehicleUnParked = parkingLot.isVehicleUnParked();
         Assert.assertTrue(isVehicleUnParked);
+    }
+
+    @Test
+    public void givenWhenParkingLotIsFull_ShouldInformTheOwner() {
+        parkingLot.parkVehicle(vehicle);
+        boolean capacityFull = parkingLotOwner.isCapacityFull();
+        Assert.assertTrue(capacityFull);
     }
 }
