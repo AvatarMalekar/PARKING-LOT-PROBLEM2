@@ -11,4 +11,8 @@ public class ParkingLotOwner implements ParkingLotInterface {
     public boolean isCapacityFull(){
         return parkingLotCapacity;
     }
+
+    public boolean hasMoreCapacity(){
+        return !this.isCapacityFull();
+    }
 }

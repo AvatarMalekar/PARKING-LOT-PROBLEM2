@@ -29,7 +29,7 @@ public class ParkingLot {
             throw new ParkingLotException("Parking Lot is Empty");
         if(this.vehicle.equals(vehicle))
             this.vehicle=null;
-        this.updateObservers(true);
+        this.updateObservers(false);
     }
 
     public boolean isVehicleUnParked() {
