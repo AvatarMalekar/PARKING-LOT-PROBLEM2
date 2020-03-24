@@ -1,6 +1,7 @@
 package ParkingLotMain;
 
 import Interfaces.ParkingLotInterface;
+import ParkingException.ParkingLotException;
 
 public class ParkingLotOwner implements ParkingLotInterface {
     public static boolean parkingLotCapacity=false;

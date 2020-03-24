@@ -8,14 +8,16 @@ import org.junit.Test;
 public class ParkingLotTest {
     ParkingLot parkingLot;
     Object vehicle;
+    Object vehicle2;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
     
     @Before
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
-        parkingLot=new ParkingLot();
+        parkingLot=new ParkingLot(1);
         vehicle=new Object();
+        vehicle2=new Object();
         airportSecurity=new AirportSecurity();
     }
 
@@ -37,6 +39,7 @@ public class ParkingLotTest {
     @Test
     public void givenWhenParkingLotIsFull_ShouldInformTheOwner() {
         parkingLot.parkVehicle(vehicle);
+        parkingLot.parkVehicle(vehicle2);
         boolean capacityFull = parkingLotOwner.isCapacityFull();
         Assert.assertTrue(capacityFull);
     }
@@ -44,6 +47,7 @@ public class ParkingLotTest {
     @Test
     public void givenWhenParkingLotIsFull_ShouldInformTheAirportSecurity() {
         parkingLot.parkVehicle(vehicle);
+        parkingLot.parkVehicle(vehicle2);
         boolean capacityFull = airportSecurity.isCapacityFull();
         Assert.assertTrue(capacityFull);
     }
@@ -54,5 +58,13 @@ public class ParkingLotTest {
         parkingLot.unParkVehicle(vehicle);
         boolean hasMoreCapacity = parkingLotOwner.hasMoreCapacity();
         Assert.assertTrue(hasMoreCapacity);
+    }
+
+    @Test
+    public void givenParkingLot_hasSpace_ShouldReturn_Size() {
+        parkingLot.parkVehicle(vehicle);
+        int size = parkingLot.getSize();
+        Assert.assertEquals(0,size);
+
     }
 }
