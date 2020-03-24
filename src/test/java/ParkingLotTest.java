@@ -1,6 +1,7 @@
 import ParkingLotMain.AirportSecurity;
 import ParkingLotMain.ParkingLot;
 import ParkingLotMain.ParkingLotOwner;
+import ParkingLotMain.Vehicle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class ParkingLotTest {
     Object vehicle2;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
-    
+
     @Before
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
@@ -72,5 +73,13 @@ public class ParkingLotTest {
         parkingLot.parkVehicle(vehicle);
         int position = parkingLot.getPositionOfCar(vehicle);
         Assert.assertEquals(0,position);
+    }
+
+    @Test
+    public void givenVehicleWhen_parkedShould_StoreTime() {
+        Vehicle car1=new Vehicle("BMW","8.00");
+        parkingLot.parkVehicle(car1);
+        String timeOfParking = parkingLot.getTimeOfParking(car1);
+        Assert.assertEquals("8.00",timeOfParking);
     }
 }

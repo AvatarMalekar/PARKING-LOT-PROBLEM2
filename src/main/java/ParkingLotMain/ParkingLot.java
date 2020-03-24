@@ -60,8 +60,13 @@ public class ParkingLot {
     }
 
     public int getPositionOfCar(Object name){
-       return mapObj.get(name);
+        return mapObj.get(name);
     }
+
+    public String getTimeOfParking(Vehicle carObj){
+        return carObj.timeOfParking;
+    }
+
     public void updateObservers(boolean status){
         parkingLotOwner.capacityStatus(status);
         airportSecurity.capacityStatus(status);
