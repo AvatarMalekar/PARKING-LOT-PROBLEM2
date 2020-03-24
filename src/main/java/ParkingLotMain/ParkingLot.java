@@ -2,8 +2,10 @@ package ParkingLotMain;
 
 import ParkingException.ParkingLotException;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ParkingLot {
     Object vehicle;
@@ -12,9 +14,11 @@ public class ParkingLot {
     int parkingLotSize;
     static int currentNumber;
     static List<Object> parkingLotAttendant;
+    static Map<Object,Integer> mapObj;
     public ParkingLot(int parkingLotSize) {
         this.parkingLotSize=parkingLotSize;
         parkingLotAttendant=new LinkedList<>();
+        mapObj=new HashMap<>();
         parkingLotOwner=new ParkingLotOwner();
         airportSecurity=new AirportSecurity();
         currentNumber =0;
@@ -25,8 +29,8 @@ public class ParkingLot {
             this.updateObservers(true);
         }
         parkingLotAttendant.add(vehicle);
+        mapObj.put(vehicle,currentNumber);
         currentNumber++;
-
     }
 
     public boolean isVehicleParked(Object vehicle){
@@ -40,6 +44,7 @@ public class ParkingLot {
         }
         if(parkingLotAttendant.contains(vehicle)) {
             parkingLotAttendant.remove(vehicle);
+            mapObj.remove(vehicle);
             this.updateObservers(false);
             currentNumber--;
         }
@@ -52,6 +57,10 @@ public class ParkingLot {
     }
     public int getSize(){
         return (this.parkingLotSize-parkingLotAttendant.size());
+    }
+
+    public int getPositionOfCar(Object name){
+       return mapObj.get(name);
     }
     public void updateObservers(boolean status){
         parkingLotOwner.capacityStatus(status);

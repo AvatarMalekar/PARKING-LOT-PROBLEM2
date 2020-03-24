@@ -65,6 +65,12 @@ public class ParkingLotTest {
         parkingLot.parkVehicle(vehicle);
         int size = parkingLot.getSize();
         Assert.assertEquals(0,size);
+    }
 
+    @Test
+    public void givenVehicleIfPresent_shouldReturn_Address() {
+        parkingLot.parkVehicle(vehicle);
+        int position = parkingLot.getPositionOfCar(vehicle);
+        Assert.assertEquals(0,position);
     }
 }
