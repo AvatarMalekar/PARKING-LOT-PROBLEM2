@@ -2,7 +2,6 @@ package ParkingLotMain;
 
 import EnumPackage.DriverType;
 import ParkingException.ParkingLotException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,6 @@ public class ParkingLot {
         if(this.currentNumber ==this.parkingLotSize) {
             this.updateObservers(true);
         }
-      //  int a=this.getIndex(type);
         parkingLotAttendant.put(this.getIndex(type),vehicle);
         currentNumber++;
     }
