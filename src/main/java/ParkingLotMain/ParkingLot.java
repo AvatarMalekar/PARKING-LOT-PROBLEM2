@@ -36,6 +36,7 @@ public class ParkingLot {
         }
         parkingLotAttendant.put(this.getIndex(type),vehicle);
         currentNumber++;
+        System.out.println(parkingLotAttendant);
     }
 
     public boolean isVehicleParked(Vehicle vehicle){
@@ -56,8 +57,8 @@ public class ParkingLot {
         }
     }
 
-    public boolean isVehicleUnParked() {
-        if(!parkingLotAttendant.containsKey(vehicle))
+    public boolean isVehicleUnParked(Vehicle vehicle) {
+        if(!parkingLotAttendant.containsValue(vehicle))
             return true;
         return false;
     }
