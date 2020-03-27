@@ -1,7 +1,5 @@
 package ParkingLotMain;
 
-import java.util.Date;
-
 public class Vehicle {
     String carName;
     String timeOfParking;

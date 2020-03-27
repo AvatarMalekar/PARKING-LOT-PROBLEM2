@@ -1,3 +1,4 @@
+import EnumPackage.DriverType;
 import ParkingLotMain.AirportSecurity;
 import ParkingLotMain.ParkingLot;
 import ParkingLotMain.ParkingLotOwner;
@@ -8,8 +9,8 @@ import org.junit.Test;
 
 public class ParkingLotTest {
     ParkingLot parkingLot;
-    Object vehicle;
-    Object vehicle2;
+    Vehicle vehicle;
+    Vehicle vehicle2;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
 
@@ -17,8 +18,8 @@ public class ParkingLotTest {
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
         parkingLot=new ParkingLot(1);
-        vehicle=new Object();
-        vehicle2=new Object();
+        vehicle=new Vehicle("Tesla","9:00");
+        vehicle2=new Vehicle("Range Rover","10:10");
         airportSecurity=new AirportSecurity();
     }
 
@@ -82,4 +83,13 @@ public class ParkingLotTest {
         String timeOfParking = parkingLot.getTimeOfParking(car1);
         Assert.assertEquals("8.00",timeOfParking);
     }
+
+    @Test
+    public void givenVehicleWhen_parkedShould_AcceptType() {
+      Vehicle car1=new Vehicle("Mercedes","8.10");
+        parkingLot.parkVehicle(car1,DriverType.NORMAL);
+        boolean isVehicleParked = parkingLot.isVehicleParked(car1);
+        Assert.assertTrue(isVehicleParked);
+    }
+
 }

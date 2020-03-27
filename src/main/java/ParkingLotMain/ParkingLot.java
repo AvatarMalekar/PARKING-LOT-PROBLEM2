@@ -1,66 +1,75 @@
 package ParkingLotMain;
 
+import EnumPackage.DriverType;
 import ParkingException.ParkingLotException;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 public class ParkingLot {
-    Object vehicle;
+    Vehicle vehicle;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
     int parkingLotSize;
     static int currentNumber;
-    static List<Object> parkingLotAttendant;
-    static Map<Object,Integer> mapObj;
+    static Map<Integer,Vehicle> parkingLotAttendant;
+
     public ParkingLot(int parkingLotSize) {
         this.parkingLotSize=parkingLotSize;
-        parkingLotAttendant=new LinkedList<>();
-        mapObj=new HashMap<>();
+        parkingLotAttendant =new HashMap<>();
         parkingLotOwner=new ParkingLotOwner();
         airportSecurity=new AirportSecurity();
         currentNumber =0;
+        this.initializeMap();
     }
 
-    public void parkVehicle(Object vehicle) {
+    public void parkVehicle(Vehicle vehicle) {
         if(this.currentNumber ==this.parkingLotSize) {
             this.updateObservers(true);
         }
-        parkingLotAttendant.add(vehicle);
-        mapObj.put(vehicle,currentNumber);
+        parkingLotAttendant.put(currentNumber,vehicle);
         currentNumber++;
     }
 
-    public boolean isVehicleParked(Object vehicle){
-        if(parkingLotAttendant.contains(vehicle))
+    public void parkVehicle(Vehicle vehicle,DriverType type) {
+        if(this.currentNumber ==this.parkingLotSize) {
+            this.updateObservers(true);
+        }
+      //  int a=this.getIndex(type);
+        parkingLotAttendant.put(this.getIndex(type),vehicle);
+        currentNumber++;
+    }
+
+    public boolean isVehicleParked(Vehicle vehicle){
+        if(parkingLotAttendant.containsValue(vehicle))
             return true;
         return false;
     }
-    public void unParkVehicle(Object vehicle) {
+
+    public void unParkVehicle(Vehicle vehicle) {
         if(this.currentNumber==0){
             throw new ParkingLotException("Parking Lot is Empty");
         }
-        if(parkingLotAttendant.contains(vehicle)) {
-            parkingLotAttendant.remove(vehicle);
-            mapObj.remove(vehicle);
+
+        if(parkingLotAttendant.containsValue(vehicle)) {
+            parkingLotAttendant.remove(this.getMeKey(vehicle));
             this.updateObservers(false);
             currentNumber--;
         }
     }
 
     public boolean isVehicleUnParked() {
-        if(!parkingLotAttendant.contains(vehicle))
+        if(!parkingLotAttendant.containsKey(vehicle))
             return true;
         return false;
     }
+
     public int getSize(){
-        return (this.parkingLotSize-parkingLotAttendant.size());
+        return (this.parkingLotSize- parkingLotAttendant.size());
     }
 
-    public int getPositionOfCar(Object name){
-        return mapObj.get(name);
+    public int getPositionOfCar(Vehicle name){
+        return this.getMeKey(name);
     }
 
     public String getTimeOfParking(Vehicle carObj){
@@ -71,5 +80,33 @@ public class ParkingLot {
         parkingLotOwner.capacityStatus(status);
         airportSecurity.capacityStatus(status);
     }
+    public int getMeKey(Vehicle vehicle){
+        for(Map.Entry<Integer,Vehicle> entry:parkingLotAttendant.entrySet()){
+            if(entry.getValue().equals(vehicle)){
+                return entry.getKey();
+            }
+        }
+       return  0;
+    }
 
+    public int getIndex(DriverType type){
+        if(type==DriverType.NORMAL){
+            for(int i=this.parkingLotSize;i>=0;i--){
+            if(parkingLotAttendant.get(i)==null)
+                return i;
+            }
+        }
+        if(type==DriverType.HANDICAP){
+            for(int i=0;i<this.parkingLotSize;i++){
+                if(parkingLotAttendant.get(i)==null)
+                    return i;
+            }
+        }
+        throw new ParkingLotException("Parking lot is full");
+    }
+
+    public void initializeMap(){
+         for(int i=0;i<this.parkingLotSize;i++)
+             parkingLotAttendant.put(0,null);
+    }
 }
