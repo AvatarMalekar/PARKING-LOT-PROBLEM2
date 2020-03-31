@@ -1,12 +1,18 @@
 package ParkingLotMain;
 
-public class AirportSecurity {
+import Interfaces.ObserverInterface;
+
+
+public class AirportSecurity implements ObserverInterface {
     public static boolean parkingLotCapacity=false;
 
-    public void capacityStatus(boolean status){
+    @Override
+    public void updateObservers(boolean status) {
         parkingLotCapacity=status;
     }
-    public boolean isCapacityFull(){
+
+    @Override
+    public boolean isCapacityFull() {
         return parkingLotCapacity;
     }
 }

@@ -1,14 +1,17 @@
 package ParkingLotMain;
 
-import Interfaces.ParkingLotInterface;
+import Interfaces.ObserverInterface;
 
-public class ParkingLotOwner implements ParkingLotInterface {
+public class ParkingLotOwner implements ObserverInterface {
     public static boolean parkingLotCapacity=false;
 
-    public void capacityStatus(boolean status){
+    @Override
+    public void updateObservers(boolean status) {
         parkingLotCapacity=status;
     }
-    public boolean isCapacityFull(){
+
+    @Override
+    public boolean isCapacityFull() {
         return parkingLotCapacity;
     }
 

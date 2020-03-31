@@ -67,7 +67,7 @@ public class ParkingLot {
 
     public void informObserver(boolean status)
     {
-        new ParkingLotObserver(status);
+        new ObserverInitialization(status);
     }
 
     public int getMeKey(Vehicle vehicle){
