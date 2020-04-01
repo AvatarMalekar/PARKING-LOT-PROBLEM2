@@ -19,7 +19,7 @@ public class ParkingLotTest {
     @Before
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
-        parkingLot=new ParkingLot(1);
+        parkingLot=new ParkingLot(2);
         vehicle=new Vehicle();
         vehicle2=new Vehicle();
         vehicle3=new Vehicle();
@@ -108,6 +108,7 @@ public class ParkingLotTest {
         try{
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
+            parkingLot.parkVehicle(vehicle3);
             boolean capacityFull = airportSecurity.isCapacityFull();
             Assert.assertTrue(capacityFull);}
         catch(ParkingLotException e){
@@ -133,7 +134,7 @@ public class ParkingLotTest {
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
             parkingLot.parkVehicle(vehicle3);
-            boolean hasMoreCapacity = parkingLotOwner.hasMoreCapacity();
+            boolean hasMoreCapacity = parkingLotOwner.isCapacityFull();
             Assert.assertTrue(hasMoreCapacity);
         }catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
@@ -144,7 +145,7 @@ public class ParkingLotTest {
         try{
             parkingLot.parkVehicle(vehicle);
             int size = parkingLot.getSize();
-            Assert.assertEquals(0,size);}
+            Assert.assertEquals(1,size);}
         catch(ParkingLotException e){
             e.printStackTrace();
         }

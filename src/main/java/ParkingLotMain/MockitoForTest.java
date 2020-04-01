@@ -1,9 +1,9 @@
 package ParkingLotMain;
 
-public class ClassToTest {
+public class MockitoForTest {
     ParkingLot parkingLot;
 
-    public ClassToTest(ParkingLot parkingLot) {
+    public MockitoForTest(ParkingLot parkingLot) {
         this.parkingLot=parkingLot;
     }
     public boolean isVehicleParked(Vehicle vehicle){

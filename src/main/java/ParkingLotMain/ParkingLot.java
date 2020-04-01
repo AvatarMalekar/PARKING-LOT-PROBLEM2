@@ -2,98 +2,81 @@ package ParkingLotMain;
 
 import EnumPackage.DriverType;
 import ParkingException.ParkingLotException;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkingLot {
+public class ParkingLot extends ParkingLotSystem{
     int parkingLotSize;
     static int currentNumber;
-    static Map<Integer,Vehicle> parkingLotAttendant;
     public static String timeOfParking=null;
 
     public ParkingLot(int parkingLotSize) {
+        super(parkingLotSize);
         this.parkingLotSize=parkingLotSize;
-        parkingLotAttendant =new HashMap<>();
+        parkingLots =new HashMap<>();
         currentNumber =0;
-        this.initializeMap();
-    }
+        this.initializeMap(); }
 
     public void parkVehicle(Vehicle vehicle) {
         if(this.currentNumber ==this.parkingLotSize) {
             this.informObserver(true);}
         this.parkingExceptionCheck(vehicle);
-        parkingLotAttendant.put(currentNumber,vehicle);
-        currentNumber++;
-    }
+        parkingLots.put(currentNumber,vehicle);
+        currentNumber++; }
 
     public void parkVehicle(Vehicle vehicle,DriverType type) {
         if(this.currentNumber ==this.parkingLotSize) {
-            this.informObserver(true);
-        }
+            this.informObserver(true); }
         this.parkingExceptionCheck(vehicle);
-        parkingLotAttendant.put(this.getIndex(type),vehicle);
-        currentNumber++;
-    }
+        parkingLots.put(this.getIndex(type),vehicle);
+        currentNumber++; }
 
     public boolean isVehicleParked(Vehicle vehicle){
-        if(parkingLotAttendant.containsValue(vehicle))
+        if(parkingLots.containsValue(vehicle))
             return true;
-        return false;
-    }
+        return false; }
 
     public void unParkVehicle(Vehicle vehicle) {
         if(this.currentNumber==0){
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_IS_EMPTY,"Parking lot is empty"); }
-        if(parkingLotAttendant.containsValue(vehicle)) {
-            parkingLotAttendant.remove(this.getMeKey(vehicle));
+        if(parkingLots.containsValue(vehicle)) {
+            parkingLots.remove(this.getMeKey(vehicle));
             this.informObserver(false);
-            currentNumber--;
-        }
-    }
+            currentNumber--; } }
 
     public boolean isVehicleUnParked(Vehicle vehicle) {
-        if(!parkingLotAttendant.containsValue(vehicle))
+        if(!parkingLots.containsValue(vehicle))
             return true;
-        return false;
-    }
+        return false; }
 
     public int getSize(){
-        return this.parkingLotSize-parkingLotAttendant.size();
+        return this.parkingLotSize- parkingLots.size();
     }
 
     public int getPositionOfCar(Vehicle name){
         return this.getMeKey(name);
     }
 
-    public void informObserver(boolean status)
-    {
-        new ObserverInitialization(status);
-    }
+    public void informObserver(boolean status) {
+        new ObserverInitialization(status); }
 
     public int getMeKey(Vehicle vehicle){
-        for(Map.Entry<Integer,Vehicle> entry:parkingLotAttendant.entrySet()){
+        for(Map.Entry<Integer,Vehicle> entry: parkingLots.entrySet()){
             if(entry.getValue().equals(vehicle)){
-                return entry.getKey();
-            }
-        }
-        throw new ParkingLotException("Vehicle not found");
-    }
+                return entry.getKey(); } }
+        throw new ParkingLotException("Vehicle not found"); }
 
     public int getIndex(DriverType type){
         if(type==DriverType.NORMAL){
-            for(int i=this.parkingLotSize;i>=0;i--){
-                if(parkingLotAttendant.get(i)==null)
-                    return i;
-            }
-        }
+            for(int i=this.parkingLotSize-1;i>=0;i--){
+                if(parkingLots.get(i)==null)
+                    return i; } }
         if(type==DriverType.HANDICAP){
             for(int i=0;i<this.parkingLotSize;i++){
-                if(parkingLotAttendant.get(i)==null)
-                    return i;
-            }
-        }
-        throw new ParkingLotException("Parking lot is full");
-    }
+                if(parkingLots.get(i)==null)
+                    return i; } }
+        throw new ParkingLotException("Parking lot is full"); }
 
     public void parkingExceptionCheck(Vehicle vehicle){
         if(this.currentNumber >this.parkingLotSize)
@@ -102,11 +85,6 @@ public class ParkingLot {
             throw new ParkingLotException(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,"null object for vehicle");
         if(isVehicleParked(vehicle))
             throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,"Vehicle already Parked");
-    }
-
-    public void initializeMap(){
-        for(int i=0;i<this.parkingLotSize;i++)
-            parkingLotAttendant.put(0,null);
     }
 
     public String getTimeOfParking(){
