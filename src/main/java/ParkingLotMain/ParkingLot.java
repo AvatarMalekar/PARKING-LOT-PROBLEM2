@@ -213,4 +213,7 @@ public class ParkingLot extends ParkingLotSystem{
         return policeDepartment.getType(typeOfCar);
     }
 
+    public ArrayList<Integer> getMeCarsParkedInDuration(String beforeTime){
+        return policeDepartment.getTimeOfParking(beforeTime);
+    }
 }

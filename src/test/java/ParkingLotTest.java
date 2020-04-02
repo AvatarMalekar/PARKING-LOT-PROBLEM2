@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ParkingLotTest {
     ParkingLot parkingLot;
@@ -19,14 +20,17 @@ public class ParkingLotTest {
     Vehicle vehicle7;
     Vehicle vehicle8;
     Vehicle vehicle9;
+    Vehicle vehicle10;
+    Vehicle vehicle11;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
-
+    Calendar now;
 
     @Before
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
         parkingLot=new ParkingLot(2);
+        now = Calendar.getInstance();
         vehicle=new Vehicle("RED");
         vehicle2=new Vehicle("WHITE");
         vehicle3=new Vehicle("WHITE");
@@ -37,6 +41,11 @@ public class ParkingLotTest {
         vehicle7=new Vehicle("BLUE","TOYOTA","1122");
         vehicle8=new Vehicle("BLUE","BMW","1111");
         vehicle9=new Vehicle("BLUE","BMW","2222");
+
+//        vehicle10=new Vehicle("RED","BMW","4145","String.valueOf((java.time.LocalTime.now()))");
+//        vehicle11=new Vehicle("WHITE","TESLA","4455","String.valueOf((java.time.LocalTime.now()))");
+        vehicle10=new Vehicle("RED","BMW","4145",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND));
+        vehicle11=new Vehicle("WHITE","TESLA","4455",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND));
         airportSecurity=new AirportSecurity();
     }
 
@@ -291,6 +300,23 @@ public class ParkingLotTest {
             ArrayList<Integer> policeList = parkingLot.getMeCarType("BMW");
             Assert.assertEquals(checklist, policeList);
         }catch(ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenCarParkedWithinThirtyMinutes_ShouldReturnLocation_ToPoliceDepartment() {
+        try{
+            parkingLot.parkVehicle(vehicle10,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle11,DriverType.HANDICAP);
+            now.add(Calendar.MINUTE,-31);
+            ArrayList<Integer> checklist = new ArrayList<>();
+            checklist.add(0);
+            checklist.add(1);
+            String timeToCheck=""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND);
+            ArrayList<Integer> policeList = parkingLot.getMeCarsParkedInDuration(timeToCheck);
+            Assert.assertEquals(checklist,policeList);
+        }catch (ParkingLotException e){
             e.printStackTrace();
         }
     }

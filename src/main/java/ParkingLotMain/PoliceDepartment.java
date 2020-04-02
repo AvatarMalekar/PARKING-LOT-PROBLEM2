@@ -55,4 +55,18 @@ public class PoliceDepartment {
         return policeList;
     }
 
+    public ArrayList<Integer> getTimeOfParking(String time) {
+        ArrayList<Integer> policeList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            if (ParkingLot.parkingLotOne.get(i) != null) {
+                if (ParkingLot.parkingLotOne.get(i).timeOfParking.compareTo(time)>0)
+                    policeList.add(ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)));
+            }
+            if (ParkingLot.parkingLotTwo.get(i) != null) {
+                if (ParkingLot.parkingLotTwo.get(i).timeOfParking.compareTo(time)>0)
+                    policeList.add(ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)));
+            }
+        }
+        return policeList;
+    }
 }
