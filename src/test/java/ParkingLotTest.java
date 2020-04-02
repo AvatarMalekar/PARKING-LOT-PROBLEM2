@@ -1,3 +1,4 @@
+import EnumPackage.CarSizeType;
 import EnumPackage.DriverType;
 import ParkingException.ParkingLotException;
 import ParkingLotMain.AirportSecurity;
@@ -13,6 +14,8 @@ public class ParkingLotTest {
     Vehicle vehicle;
     Vehicle vehicle2;
     Vehicle vehicle3;
+    Vehicle vehicle4;
+    Vehicle vehicle5;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
 
@@ -23,6 +26,8 @@ public class ParkingLotTest {
         vehicle=new Vehicle();
         vehicle2=new Vehicle();
         vehicle3=new Vehicle();
+        vehicle4=new Vehicle();
+        vehicle5=new Vehicle();
         airportSecurity=new AirportSecurity();
     }
 
@@ -57,6 +62,7 @@ public class ParkingLotTest {
             Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
         }
     }
+
     @Test
     public void givenVehicle_WhenUnParked_ShouldReturn_True() {
         try{
@@ -96,6 +102,8 @@ public class ParkingLotTest {
         try{
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
+            parkingLot.parkVehicle(vehicle3);
+            parkingLot.parkVehicle(vehicle4);
             boolean capacityFull = parkingLotOwner.isCapacityFull();
             Assert.assertTrue(capacityFull);}
         catch(ParkingLotException e){
@@ -109,6 +117,7 @@ public class ParkingLotTest {
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
             parkingLot.parkVehicle(vehicle3);
+            parkingLot.parkVehicle(vehicle4);
             boolean capacityFull = airportSecurity.isCapacityFull();
             Assert.assertTrue(capacityFull);}
         catch(ParkingLotException e){
@@ -134,18 +143,19 @@ public class ParkingLotTest {
             parkingLot.parkVehicle(vehicle);
             parkingLot.parkVehicle(vehicle2);
             parkingLot.parkVehicle(vehicle3);
-            boolean hasMoreCapacity = parkingLotOwner.isCapacityFull();
-            Assert.assertTrue(hasMoreCapacity);
+            parkingLot.parkVehicle(vehicle4);
+            parkingLot.parkVehicle(vehicle5);
         }catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
         }
     }
+
     @Test
     public void givenParkingLot_hasSpace_ShouldReturn_Size() {
         try{
             parkingLot.parkVehicle(vehicle);
             int size = parkingLot.getSize();
-            Assert.assertEquals(1,size);}
+            Assert.assertEquals(3,size);}
         catch(ParkingLotException e){
             e.printStackTrace();
         }
@@ -205,4 +215,19 @@ public class ParkingLotTest {
         catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);        }
     }
+
+    @Test
+    public void givenVehicle_IfLarge_ShouldBeParked_InTheLotHavingLargeSize() {
+        try{
+            ParkingLot parkLot=new ParkingLot(4);
+            parkLot.parkVehicle(vehicle,DriverType.NORMAL, CarSizeType.LARGE);
+            int positionOfCar = parkLot.getPositionOfCar(vehicle);
+            Assert.assertEquals(2,positionOfCar);
+        }
+        catch(ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
+
+    
 }
