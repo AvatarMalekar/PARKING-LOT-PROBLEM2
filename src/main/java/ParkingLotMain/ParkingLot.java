@@ -206,4 +206,8 @@ public class ParkingLot extends ParkingLotSystem{
             return policeDepartment.getColour(colour);
         }
 
+    public ArrayList<PoliceDataRecord> getMeLocationAndNumberPlate(String colour, String type){
+        return policeDepartment.getLocationAndPlate(colour,type);
+    }
+
 }

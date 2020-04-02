@@ -15,6 +15,10 @@ public class ParkingLotTest {
     Vehicle vehicle3;
     Vehicle vehicle4;
     Vehicle vehicle5;
+    Vehicle vehicle6;
+    Vehicle vehicle7;
+    Vehicle vehicle8;
+    Vehicle vehicle9;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
 
@@ -28,6 +32,11 @@ public class ParkingLotTest {
         vehicle3=new Vehicle("WHITE");
         vehicle4=new Vehicle("WHITE");
         vehicle5=new Vehicle("WHITE");
+
+        vehicle6=new Vehicle("BLUE","TOYOTA","1234");
+        vehicle7=new Vehicle("BLUE","TOYOTA","1122");
+        vehicle8=new Vehicle("BLUE","BMW","1111");
+        vehicle9=new Vehicle("BLUE","BMW","2222");
         airportSecurity=new AirportSecurity();
     }
 
@@ -247,6 +256,24 @@ public class ParkingLotTest {
             boolean a=checklist.equals(policeList);
             Assert.assertTrue(a);
         }catch(ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenBlue_ToyotaCars_shouldReturnLocationAndPlateNumber_ToPoliceDepartment() {
+        try{
+            parkingLot.parkVehicle(vehicle6,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle7,DriverType.HANDICAP);
+            parkingLot.parkVehicle(vehicle8,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle9,DriverType.NORMAL);
+            ArrayList<PoliceDataRecord> locationAndNumberPlate = parkingLot.getMeLocationAndNumberPlate("BLUE", "TOYOTA");
+            Assert.assertEquals(0,locationAndNumberPlate.get(0).location);
+            Assert.assertEquals("1122",locationAndNumberPlate.get(0).numberPlate);
+            Assert.assertEquals(1,locationAndNumberPlate.get(1).location);
+            Assert.assertEquals("1234",locationAndNumberPlate.get(1).numberPlate);
+        }
+        catch(ParkingLotException e){
             e.printStackTrace();
         }
     }
