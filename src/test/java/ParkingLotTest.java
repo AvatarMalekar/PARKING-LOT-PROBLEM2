@@ -277,4 +277,21 @@ public class ParkingLotTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenBMWCar_shouldReturn_LocationTo_Police_Department() {
+        try {
+            parkingLot.parkVehicle(vehicle6, DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle7, DriverType.HANDICAP);
+            parkingLot.parkVehicle(vehicle8, DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle9, DriverType.NORMAL);
+            ArrayList<Integer> checklist = new ArrayList<>();
+            checklist.add(0);
+            checklist.add(1);
+            ArrayList<Integer> policeList = parkingLot.getMeCarType("BMW");
+            Assert.assertEquals(checklist, policeList);
+        }catch(ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
 }

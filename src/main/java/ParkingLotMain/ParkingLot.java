@@ -32,7 +32,7 @@ public class ParkingLot extends ParkingLotSystem{
         currentNumber++;
         if(this.currentNumber ==this.totalParkingLotSize) {
             this.informObserver(true);
-            }
+        }
         this.parkingExceptionCheck(vehicle);
         if(decideWhichLot().equals("parkingLotOne")){
             parkingLotOne.set(this.getIndex(null,"parkingLotOne",null),vehicle);
@@ -85,8 +85,8 @@ public class ParkingLot extends ParkingLotSystem{
             parkingLotOne.set(parkingLotOne.indexOf(vehicle),null);
         if(parkingLotTwo.contains(vehicle))
             parkingLotTwo.set(parkingLotTwo.indexOf(vehicle),null);
-            this.informObserver(false);
-            currentNumber--;
+        this.informObserver(false);
+        currentNumber--;
     }
 
     public boolean isVehicleUnParked(Vehicle vehicle) {
@@ -161,53 +161,56 @@ public class ParkingLot extends ParkingLotSystem{
             }
         }
 
-            if (driverType == DriverType.NORMAL) {
-                for (int i = this.parkingLotSize - 1; i >= 0; i--) {
-                    if (lotName.equals("parkingLotOne")) {
-                        if (parkingLotOne.get(i) == null)
-                            return i;
-                    }
+        if (driverType == DriverType.NORMAL) {
+            for (int i = this.parkingLotSize - 1; i >= 0; i--) {
+                if (lotName.equals("parkingLotOne")) {
+                    if (parkingLotOne.get(i) == null)
+                        return i;
+                }
 
-                    if (lotName.equals("parkingLotTwo")) {
-                        if (parkingLotTwo.get(i) == null)
-                            return i;
-                    }
+                if (lotName.equals("parkingLotTwo")) {
+                    if (parkingLotTwo.get(i) == null)
+                        return i;
                 }
             }
-            if (driverType == DriverType.HANDICAP) {
-                for (int i = 0; i < this.parkingLotSize; i++) {
-                    if (lotName.equals("parkingLotOne")) {
-                        if (parkingLotOne.get(i) == null)
-                            return i;
-                    }
+        }
+        if (driverType == DriverType.HANDICAP) {
+            for (int i = 0; i < this.parkingLotSize; i++) {
+                if (lotName.equals("parkingLotOne")) {
+                    if (parkingLotOne.get(i) == null)
+                        return i;
+                }
 
-                    if (lotName.equals("parkingLotTwo")) {
-                        if (parkingLotTwo.get(i) == null)
-                            return i;
-                    }
+                if (lotName.equals("parkingLotTwo")) {
+                    if (parkingLotTwo.get(i) == null)
+                        return i;
                 }
             }
-            throw new ParkingLotException("Parking lot is full");
         }
+        throw new ParkingLotException("Parking lot is full");
+    }
 
-        public void parkingExceptionCheck (Vehicle vehicle){
-            if (this.currentNumber > this.totalParkingLotSize)
-                throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL, "Parking lot is full");
-            if (vehicle == null)
-                throw new ParkingLotException(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE, "null object for vehicle");
-            if (isVehicleParked(vehicle))
-                throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY, "Vehicle already Parked");
-        }
+    public void parkingExceptionCheck (Vehicle vehicle){
+        if (this.currentNumber > this.totalParkingLotSize)
+            throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL, "Parking lot is full");
+        if (vehicle == null)
+            throw new ParkingLotException(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE, "null object for vehicle");
+        if (isVehicleParked(vehicle))
+            throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY, "Vehicle already Parked");
+    }
 
-        public String getTimeOfParking () {
-            return timeOfParking;
-        }
-        public ArrayList<Integer> getMeList(String colour){
-            return policeDepartment.getColour(colour);
-        }
+    public String getTimeOfParking () {
+        return timeOfParking;
+    }
+    public ArrayList<Integer> getMeList(String colour){
+        return policeDepartment.getColour(colour);
+    }
 
     public ArrayList<PoliceDataRecord> getMeLocationAndNumberPlate(String colour, String type){
         return policeDepartment.getLocationAndPlate(colour,type);
+    }
+    public ArrayList<Integer> getMeCarType(String typeOfCar){
+        return policeDepartment.getType(typeOfCar);
     }
 
 }

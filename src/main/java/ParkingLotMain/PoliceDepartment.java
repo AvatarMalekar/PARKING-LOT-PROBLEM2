@@ -40,5 +40,19 @@ public class PoliceDepartment {
         return policeList;
     }
 
+    public ArrayList<Integer> getType(String typeOfCar) {
+        ArrayList<Integer> policeList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            if (ParkingLot.parkingLotOne.get(i) != null) {
+                if (ParkingLot.parkingLotOne.get(i).typeOfCar == typeOfCar)
+                    policeList.add(ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)));
+            }
+            if (ParkingLot.parkingLotTwo.get(i) != null) {
+                if (ParkingLot.parkingLotTwo.get(i).typeOfCar == typeOfCar)
+                    policeList.add(ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)));
+            }
+        }
+        return policeList;
+    }
 
 }
