@@ -14,6 +14,7 @@ public class ParkingLot extends ParkingLotSystem{
     static int currentNumber;
     public static String timeOfParking=null;
     public static ArrayList<Vehicle> tempList;
+    PoliceDepartment policeDepartment;
     public ParkingLot(int parkingLotSize) {
         super(parkingLotSize);
         this.parkingLotSize=parkingLotSize;
@@ -23,6 +24,8 @@ public class ParkingLot extends ParkingLotSystem{
         tempList=new ArrayList<>();
         currentNumber =0;
         this.initializeMap();
+        policeDepartment=new PoliceDepartment(this.parkingLotSize);
+
     }
 
     public void parkVehicle(Vehicle vehicle) {
@@ -155,7 +158,6 @@ public class ParkingLot extends ParkingLotSystem{
                             return i + 1;
                     }
                 }
-
             }
         }
 
@@ -200,6 +202,8 @@ public class ParkingLot extends ParkingLotSystem{
         public String getTimeOfParking () {
             return timeOfParking;
         }
-
+        public ArrayList<Integer> getMeList(String colour){
+            return policeDepartment.getColour(colour);
+        }
 
 }

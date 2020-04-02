@@ -1,13 +1,12 @@
 import EnumPackage.CarSizeType;
 import EnumPackage.DriverType;
 import ParkingException.ParkingLotException;
-import ParkingLotMain.AirportSecurity;
-import ParkingLotMain.ParkingLot;
-import ParkingLotMain.ParkingLotOwner;
-import ParkingLotMain.Vehicle;
+import ParkingLotMain.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class ParkingLotTest {
     ParkingLot parkingLot;
@@ -19,15 +18,16 @@ public class ParkingLotTest {
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
 
+
     @Before
     public void setUp() throws Exception {
         parkingLotOwner=new ParkingLotOwner();
         parkingLot=new ParkingLot(2);
-        vehicle=new Vehicle();
-        vehicle2=new Vehicle();
-        vehicle3=new Vehicle();
-        vehicle4=new Vehicle();
-        vehicle5=new Vehicle();
+        vehicle=new Vehicle("RED");
+        vehicle2=new Vehicle("WHITE");
+        vehicle3=new Vehicle("WHITE");
+        vehicle4=new Vehicle("WHITE");
+        vehicle5=new Vehicle("WHITE");
         airportSecurity=new AirportSecurity();
     }
 
@@ -229,5 +229,25 @@ public class ParkingLotTest {
         }
     }
 
-    
+    @Test
+    public void whenPoliceDepartmentAsks_ShouldReturn_LocationOfAllParked_WhiteCars() {
+        try{
+            ParkingLot parkLot=new ParkingLot(4);
+            parkLot.parkVehicle(vehicle,DriverType.NORMAL, CarSizeType.LARGE);
+            parkLot.parkVehicle(vehicle2,DriverType.NORMAL, CarSizeType.LARGE);
+            parkLot.parkVehicle(vehicle3,DriverType.NORMAL);
+            parkLot.parkVehicle(vehicle4,DriverType.HANDICAP);
+            parkLot.parkVehicle(vehicle5,DriverType.NORMAL);
+            ArrayList<Integer> policeList = parkLot.getMeList("WHITE");
+            ArrayList<Integer> checklist=new ArrayList<>();
+            checklist.add(0);
+            checklist.add(1);
+            checklist.add(2);
+            checklist.add(3);
+            boolean a=checklist.equals(policeList);
+            Assert.assertTrue(a);
+        }catch(ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
 }
