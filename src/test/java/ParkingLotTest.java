@@ -344,4 +344,27 @@ public class ParkingLotTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenCarParked_ShouldGiveLocationTo_PoliceDepartment() {
+        try{
+            ParkingLot parkLot=new ParkingLot(4);
+            parkLot.parkVehicle(vehicle,DriverType.NORMAL, CarSizeType.LARGE);
+            parkLot.parkVehicle(vehicle2,DriverType.NORMAL, CarSizeType.LARGE);
+            parkLot.parkVehicle(vehicle3,DriverType.NORMAL);
+            parkLot.parkVehicle(vehicle4,DriverType.HANDICAP);
+            parkLot.parkVehicle(vehicle5,DriverType.NORMAL);
+            ArrayList<String> checklist = new ArrayList<>();
+            checklist.add("ParkingLotTwo-0");
+            checklist.add("ParkingLotOne-1");
+            checklist.add("ParkingLotOne-2");
+            checklist.add("ParkingLotTwo-2");
+            checklist.add("ParkingLotOne-3");
+
+            ArrayList<String> allParkedCars = parkLot.getMeLocationOfAllParkedCars();
+            Assert.assertEquals(checklist,allParkedCars);
+        }catch (ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -221,4 +221,8 @@ public class ParkingLot extends ParkingLotSystem{
     public HashMap<String,Vehicle> getMeLocationByCarSizeAndDriverType(CarSizeType carSizeType, DriverType driverType){
         return policeDepartment.getLocationByCarSizeAndDriverType(carSizeType,driverType);
     }
+
+    public ArrayList<String> getMeLocationOfAllParkedCars(){
+        return policeDepartment.getLocationOfAllParkedCars();
+    }
 }
