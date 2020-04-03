@@ -1,6 +1,10 @@
 package ParkingLotMain;
 
+import EnumPackage.CarSizeType;
+import EnumPackage.DriverType;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PoliceDepartment {
@@ -59,14 +63,34 @@ public class PoliceDepartment {
         ArrayList<Integer> policeList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (ParkingLot.parkingLotOne.get(i) != null) {
-                if (ParkingLot.parkingLotOne.get(i).timeOfParking.compareTo(time)>0)
+                System.out.println(ParkingLot.parkingLotOne.get(i).timeOfParking);
+                System.out.println(time);
+                System.out.println((ParkingLot.parkingLotOne.get(i).timeOfParking).compareTo(time));
+                if (ParkingLot.parkingLotOne.get(i).timeOfParking.compareTo(time)>=0)
                     policeList.add(ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)));
             }
             if (ParkingLot.parkingLotTwo.get(i) != null) {
+                System.out.println(ParkingLot.parkingLotTwo.get(i).timeOfParking.compareTo(time)>=0);
                 if (ParkingLot.parkingLotTwo.get(i).timeOfParking.compareTo(time)>0)
                     policeList.add(ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)));
             }
         }
         return policeList;
     }
+
+    public HashMap<String,Vehicle> getLocationByCarSizeAndDriverType(CarSizeType carSizeType, DriverType driverType) {
+        HashMap<String,Vehicle> policeList = new HashMap<>();
+        for (int i = 0; i < size; i++) {
+            if (ParkingLot.parkingLotOne.get(i) != null) {
+                if (ParkingLot.parkingLotOne.get(i).carSizeType == carSizeType && ParkingLot.parkingLotOne.get(i).driverType ==driverType)
+                    policeList.put("P1"+ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)),ParkingLot.parkingLotOne.get(i));
+            }
+            if (ParkingLot.parkingLotTwo.get(i) != null) {
+                if (ParkingLot.parkingLotTwo.get(i).carSizeType == carSizeType && ParkingLot.parkingLotTwo.get(i).driverType ==driverType)
+                    policeList.put("P2"+ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)),ParkingLot.parkingLotTwo.get(i));
+            }
+        }
+        return policeList;
+    }
+
 }

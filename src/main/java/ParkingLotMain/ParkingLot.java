@@ -6,6 +6,7 @@ import ParkingException.ParkingLotException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class ParkingLot extends ParkingLotSystem{
@@ -215,5 +216,9 @@ public class ParkingLot extends ParkingLotSystem{
 
     public ArrayList<Integer> getMeCarsParkedInDuration(String beforeTime){
         return policeDepartment.getTimeOfParking(beforeTime);
+    }
+
+    public HashMap<String,Vehicle> getMeLocationByCarSizeAndDriverType(CarSizeType carSizeType, DriverType driverType){
+        return policeDepartment.getLocationByCarSizeAndDriverType(carSizeType,driverType);
     }
 }

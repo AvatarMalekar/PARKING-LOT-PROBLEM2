@@ -1,10 +1,15 @@
 package ParkingLotMain;
 
+import EnumPackage.CarSizeType;
+import EnumPackage.DriverType;
+
 public class Vehicle {
     String colour;
     String typeOfCar;
     String numberPlate;
     String timeOfParking;
+    CarSizeType carSizeType;
+    DriverType driverType;
     public Vehicle() {
     }
 
@@ -23,5 +28,14 @@ public class Vehicle {
         this.typeOfCar = typeOfCar;
         this.numberPlate = numberPlate;
         this.timeOfParking = timeOfParking;
+    }
+
+    public Vehicle(String colour, String typeOfCar, String numberPlate, String timeOfParking, CarSizeType carSizeType, DriverType driverType) {
+        this.colour = colour;
+        this.typeOfCar = typeOfCar;
+        this.numberPlate = numberPlate;
+        this.timeOfParking = timeOfParking;
+        this.carSizeType = carSizeType;
+        this.driverType = driverType;
     }
 }

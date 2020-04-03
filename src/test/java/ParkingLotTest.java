@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class ParkingLotTest {
     ParkingLot parkingLot;
@@ -22,6 +23,10 @@ public class ParkingLotTest {
     Vehicle vehicle9;
     Vehicle vehicle10;
     Vehicle vehicle11;
+    Vehicle vehicle12;
+    Vehicle vehicle13;
+    Vehicle vehicle14;
+    Vehicle vehicle15;
     ParkingLotOwner parkingLotOwner;
     AirportSecurity airportSecurity;
     Calendar now;
@@ -42,10 +47,15 @@ public class ParkingLotTest {
         vehicle8=new Vehicle("BLUE","BMW","1111");
         vehicle9=new Vehicle("BLUE","BMW","2222");
 
-//        vehicle10=new Vehicle("RED","BMW","4145","String.valueOf((java.time.LocalTime.now()))");
-//        vehicle11=new Vehicle("WHITE","TESLA","4455","String.valueOf((java.time.LocalTime.now()))");
         vehicle10=new Vehicle("RED","BMW","4145",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND));
         vehicle11=new Vehicle("WHITE","TESLA","4455",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND));
+
+        vehicle12=new Vehicle("YELLOW","LAMBORGHINI","7458",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),CarSizeType.SMALL,DriverType.HANDICAP);
+        vehicle13=new Vehicle("WHITE","TESLA","4451",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),CarSizeType.SMALL,DriverType.HANDICAP);
+        vehicle14=new Vehicle("RED","MERCEDES","8888",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),CarSizeType.SMALL,DriverType.HANDICAP);
+        vehicle15=new Vehicle("WHITE","AUDI","9991",""+now.get(Calendar.HOUR_OF_DAY)+":"+now.get(Calendar.MINUTE)+":"+now.get(Calendar.SECOND),CarSizeType.LARGE,DriverType.NORMAL);
+
+
         airportSecurity=new AirportSecurity();
     }
 
@@ -309,6 +319,7 @@ public class ParkingLotTest {
         try{
             parkingLot.parkVehicle(vehicle10,DriverType.NORMAL);
             parkingLot.parkVehicle(vehicle11,DriverType.HANDICAP);
+
             now.add(Calendar.MINUTE,-31);
             ArrayList<Integer> checklist = new ArrayList<>();
             checklist.add(0);
@@ -317,6 +328,19 @@ public class ParkingLotTest {
             ArrayList<Integer> policeList = parkingLot.getMeCarsParkedInDuration(timeToCheck);
             Assert.assertEquals(checklist,policeList);
         }catch (ParkingLotException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenSmallHandicapCarParked_ShouldReturnLocationAndInformation_ToPoliceDepartment() {
+        try{
+            parkingLot.parkVehicle(vehicle12);
+            parkingLot.parkVehicle(vehicle13);
+            parkingLot.parkVehicle(vehicle14);
+            parkingLot.parkVehicle(vehicle15);
+            HashMap<String, Vehicle> policeData = parkingLot.getMeLocationByCarSizeAndDriverType(CarSizeType.SMALL, DriverType.HANDICAP);
+        }catch(ParkingLotException e){
             e.printStackTrace();
         }
     }
