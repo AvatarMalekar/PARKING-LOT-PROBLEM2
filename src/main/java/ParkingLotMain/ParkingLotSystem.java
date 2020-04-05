@@ -5,33 +5,30 @@ import java.util.List;
 public class ParkingLotSystem {
     static List<Vehicle> parkingLotOne;
     static List<Vehicle> parkingLotTwo;
-    int size;
+    int lotSize;
 
-    public ParkingLotSystem(int size) {
-        this.size = size;
+    public ParkingLotSystem(int lotSize) {
+        this.lotSize = lotSize;
     }
 
     public void initializeMap(){
-        for(int i=0;i<size;i++){
+        for(int i = 0; i< lotSize; i++){
             parkingLotOne.add(null);
             parkingLotTwo.add(null);}
     }
-
     public int listSize(){
         int listSize=0;
-        for(int i=0;i<size;i++){
+        for(int i = 0; i< lotSize; i++){
             if(parkingLotOne.get(i)!=null)
-                listSize++;
-        }
+                listSize++; }
         return listSize;
     }
 
     public int listTwoSize(){
         int listSize=0;
-        for(int i=0;i<size;i++){
+        for(int i = 0; i< lotSize; i++){
             if(parkingLotTwo.get(i)!=null)
-                listSize++;
-        }
+                listSize++; }
         return listSize;
     }
 

@@ -7,7 +7,9 @@ import ParkingException.ParkingLotException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ParkingLot extends ParkingLotSystem{
     int parkingLotSize;
@@ -37,6 +39,7 @@ public class ParkingLot extends ParkingLotSystem{
         this.parkingExceptionCheck(vehicle);
         if(decideWhichLot().equals("parkingLotOne")){
             parkingLotOne.set(this.getIndex(null,"parkingLotOne",null),vehicle);
+
             return;}
         if(decideWhichLot().equals("parkingLotTwo")){
             parkingLotTwo.set(this.getIndex(null,"parkingLotTwo",null),vehicle);
@@ -72,9 +75,7 @@ public class ParkingLot extends ParkingLotSystem{
     }
 
     public boolean isVehicleParked(Vehicle vehicle){
-        if(parkingLotOne.contains(vehicle))
-            return true;
-        if(parkingLotTwo.contains(vehicle))
+        if(parkingLotOne.contains(vehicle) || parkingLotTwo.contains(vehicle))
             return true;
         return false;
     }
@@ -91,9 +92,7 @@ public class ParkingLot extends ParkingLotSystem{
     }
 
     public boolean isVehicleUnParked(Vehicle vehicle) {
-        if(!parkingLotOne.contains(vehicle))
-            return true;
-        if(!parkingLotTwo.contains(vehicle))
+        if(!parkingLotOne.contains(vehicle) || !parkingLotTwo.contains(vehicle))
             return true;
         return false;
     }
@@ -108,88 +107,47 @@ public class ParkingLot extends ParkingLotSystem{
 
         if(parkingLotTwo.contains(vehicle))
             return  parkingLotTwo.indexOf(vehicle);
-        throw new ParkingLotException("Vehicle Not Found");
-    }
+        throw new ParkingLotException("Vehicle Not Found"); }
 
-    public void informObserver(boolean status)
-    {
-        new ObserverInitialization(status);
-    }
+    public void informObserver(boolean status) {
+        new ObserverInitialization(status); }
 
     public int getIndex(DriverType driverType,String lotName,CarSizeType carSizeType) {
-        if (driverType == null) {
-            if (lotName.equals("parkingLotOne")) {
-                for (int i = 0; i < this.parkingLotSize; i++) {
-                    if (parkingLotOne.get(i) == null)
-                        return i;
-                }
-            }
-            if (lotName.equals("parkingLotTwo")) {
-                for (int i = 0; i < this.parkingLotSize; i++) {
-                    if (parkingLotTwo.get(i) == null)
-                        return i;
-                }
-            }
-        }
-
         if (carSizeType == CarSizeType.LARGE && this.getSize() >= 3) {
             if (driverType == DriverType.NORMAL) {
                 for (int i = this.parkingLotSize - 1; i >= 0; i--) {
                     if (lotName.equals("parkingLotOne")) {
                         if (parkingLotOne.get(i) == null && parkingLotOne.get(i - 1) == null && parkingLotOne.get(i - 2) == null)
-                            return i - 1;
-                    }
+                            return i - 1; }
 
                     if (lotName.equals("parkingLotTwo")) {
                         if (parkingLotTwo.get(i) == null && parkingLotTwo.get(i - 1) == null && parkingLotTwo.get(i - 2) == null)
-                            return i - 1;
-                    }
-                }
-            }
+                            return i - 1; } } }
 
             if (driverType == DriverType.HANDICAP) {
                 for (int i = 0; i < this.parkingLotSize; i++) {
                     if (lotName.equals("parkingLotOne")) {
                         if (parkingLotOne.get(i) == null && parkingLotOne.get(i + 1) == null && parkingLotOne.get(i + 2) == null)
-                            return i + 1;
-                    }
-
+                            return i + 1; }
                     if (lotName.equals("parkingLotTwo")) {
                         if (parkingLotTwo.get(i) == null && parkingLotTwo.get(i + 1) == null && parkingLotTwo.get(i + 2) == null)
-                            return i + 1;
-                    }
-                }
-            }
-        }
+                            return i + 1; } } } }
 
         if (driverType == DriverType.NORMAL) {
             for (int i = this.parkingLotSize - 1; i >= 0; i--) {
                 if (lotName.equals("parkingLotOne")) {
                     if (parkingLotOne.get(i) == null)
-                        return i;
-                }
-
+                        return i; }
                 if (lotName.equals("parkingLotTwo")) {
                     if (parkingLotTwo.get(i) == null)
-                        return i;
-                }
-            }
-        }
-        if (driverType == DriverType.HANDICAP) {
-            for (int i = 0; i < this.parkingLotSize; i++) {
-                if (lotName.equals("parkingLotOne")) {
-                    if (parkingLotOne.get(i) == null)
-                        return i;
-                }
+                        return i; } } }
 
-                if (lotName.equals("parkingLotTwo")) {
-                    if (parkingLotTwo.get(i) == null)
-                        return i;
-                }
-            }
-        }
-        throw new ParkingLotException("Parking lot is full");
-    }
+        if(driverType==DriverType.HANDICAP || driverType==null){
+            if (lotName.equals("parkingLotOne"))
+                return IntStream.range(0,this.parkingLotSize).filter(i->parkingLotOne.get(i)==null).boxed().collect(Collectors.toList()).get(0);
+            if (lotName.equals("parkingLotTwo"))
+                return IntStream.range(0,this.parkingLotSize).filter(i->parkingLotTwo.get(i)==null).boxed().collect(Collectors.toList()).get(0); }
+        throw new ParkingLotException("Parking lot is full"); }
 
     public void parkingExceptionCheck (Vehicle vehicle){
         if (this.currentNumber > this.totalParkingLotSize)
@@ -197,32 +155,26 @@ public class ParkingLot extends ParkingLotSystem{
         if (vehicle == null)
             throw new ParkingLotException(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE, "null object for vehicle");
         if (isVehicleParked(vehicle))
-            throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY, "Vehicle already Parked");
-    }
+            throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY, "Vehicle already Parked"); }
 
     public String getTimeOfParking () {
-        return timeOfParking;
-    }
+        return timeOfParking; }
     public ArrayList<Integer> getMeList(String colour){
-        return policeDepartment.getColour(colour);
-    }
+        return policeDepartment.getColour(colour); }
 
     public ArrayList<PoliceDataRecord> getMeLocationAndNumberPlate(String colour, String type){
-        return policeDepartment.getLocationAndPlate(colour,type);
-    }
+        return policeDepartment.getLocationAndPlate(colour,type); }
+
     public ArrayList<Integer> getMeCarType(String typeOfCar){
-        return policeDepartment.getType(typeOfCar);
-    }
+        return policeDepartment.getType(typeOfCar); }
 
     public ArrayList<Integer> getMeCarsParkedInDuration(String beforeTime){
         return policeDepartment.getTimeOfParking(beforeTime);
     }
 
-    public HashMap<String,Vehicle> getMeLocationByCarSizeAndDriverType(CarSizeType carSizeType, DriverType driverType){
-        return policeDepartment.getLocationByCarSizeAndDriverType(carSizeType,driverType);
-    }
+    public LinkedHashMap<String,Vehicle> getMeLocationByCarSizeAndDriverType(CarSizeType carSizeType, DriverType driverType){
+        return policeDepartment.getLocationByCarSizeAndDriverType(carSizeType,driverType); }
 
     public ArrayList<String> getMeLocationOfAllParkedCars(){
-        return policeDepartment.getLocationOfAllParkedCars();
-    }
+        return policeDepartment.getLocationOfAllParkedCars(); }
 }

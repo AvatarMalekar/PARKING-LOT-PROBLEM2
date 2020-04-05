@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ParkingLotTest {
     ParkingLot parkingLot;
@@ -198,8 +199,8 @@ public class ParkingLotTest {
     public void givenVehicleIfPresent_shouldReturn_Address() {
         try{
             parkingLot.parkVehicle(vehicle);
-            int position = parkingLot.getPositionOfCar(vehicle);
-            Assert.assertEquals(0,position);}
+            int positionOfCar = parkingLot.getPositionOfCar(vehicle);
+            Assert.assertEquals(0,positionOfCar);}
         catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
             Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
@@ -210,7 +211,7 @@ public class ParkingLotTest {
     public void givenVehicleIfAbsent_shouldThrowException() {
         try{
             parkingLot.parkVehicle(vehicle);
-            int position = parkingLot.getPositionOfCar(vehicle);
+            int positionOfCar = parkingLot.getPositionOfCar(vehicle);
         }
         catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
@@ -220,12 +221,12 @@ public class ParkingLotTest {
     @Test
     public void givenVehicleWhen_parkedShould_StoreTime() {
         try{
-        Vehicle car1=new Vehicle();
-        parkingLot.parkVehicle(car1);
-        String localTime=String.valueOf((java.time.LocalTime.now()));
-        ParkingLot.timeOfParking= localTime;
-        String timeOfParking = parkingLot.getTimeOfParking();
-        Assert.assertEquals(localTime,timeOfParking);}
+            Vehicle car1=new Vehicle();
+            parkingLot.parkVehicle(car1);
+            String localTime=String.valueOf((java.time.LocalTime.now()));
+            ParkingLot.timeOfParking= localTime;
+            String timeOfParking = parkingLot.getTimeOfParking();
+            Assert.assertEquals(localTime,timeOfParking);}
         catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
         }
@@ -357,7 +358,12 @@ public class ParkingLotTest {
             parkingLot.parkVehicle(vehicle13);
             parkingLot.parkVehicle(vehicle14);
             parkingLot.parkVehicle(vehicle15);
+            LinkedHashMap<String,Vehicle> dataToCompare=new LinkedHashMap<>();
+            dataToCompare.put("ParkingLotOne-0",vehicle12);
+            dataToCompare.put("ParkingLotTwo-0",vehicle13);
+            dataToCompare.put("ParkingLotOne-1",vehicle14);
             HashMap<String, Vehicle> policeData = parkingLot.getMeLocationByCarSizeAndDriverType(CarSizeType.SMALL, DriverType.HANDICAP);
+            Assert.assertEquals(dataToCompare,policeData);
         }catch(ParkingLotException e){
             Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
             Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
