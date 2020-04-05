@@ -67,7 +67,8 @@ public class ParkingLotTest {
             Assert.assertEquals(true, isVehicleParked);
         }
         catch(ParkingLotException e){
-            e.printStackTrace();        }
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);}
     }
 
     @Test
@@ -99,7 +100,8 @@ public class ParkingLotTest {
             boolean isVehicleUnParked = parkingLot.isVehicleUnParked(vehicle);
             Assert.assertTrue(isVehicleUnParked);}
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_IS_EMPTY,e.type);
         }
     }
 
@@ -135,7 +137,8 @@ public class ParkingLotTest {
             boolean capacityFull = parkingLotOwner.isCapacityFull();
             Assert.assertTrue(capacityFull);}
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
         }
     }
 
@@ -149,7 +152,8 @@ public class ParkingLotTest {
             boolean capacityFull = airportSecurity.isCapacityFull();
             Assert.assertTrue(capacityFull);}
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
         }
     }
 
@@ -161,7 +165,8 @@ public class ParkingLotTest {
             boolean hasMoreCapacity = parkingLotOwner.hasMoreCapacity();
             Assert.assertTrue(hasMoreCapacity);
         }catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
         }
     }
 
@@ -185,7 +190,7 @@ public class ParkingLotTest {
             int size = parkingLot.getSize();
             Assert.assertEquals(3,size);}
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
         }
     }
 
@@ -196,7 +201,8 @@ public class ParkingLotTest {
             int position = parkingLot.getPositionOfCar(vehicle);
             Assert.assertEquals(0,position);}
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
 
@@ -213,12 +219,16 @@ public class ParkingLotTest {
 
     @Test
     public void givenVehicleWhen_parkedShould_StoreTime() {
+        try{
         Vehicle car1=new Vehicle();
         parkingLot.parkVehicle(car1);
         String localTime=String.valueOf((java.time.LocalTime.now()));
         ParkingLot.timeOfParking= localTime;
         String timeOfParking = parkingLot.getTimeOfParking();
-        Assert.assertEquals(localTime,timeOfParking);
+        Assert.assertEquals(localTime,timeOfParking);}
+        catch(ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+        }
     }
 
     @Test
@@ -229,7 +239,9 @@ public class ParkingLotTest {
             boolean isVehicleParked = parkingLot.isVehicleParked(car1);
             Assert.assertTrue(isVehicleParked);}
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
         }
     }
 
@@ -253,7 +265,9 @@ public class ParkingLotTest {
             Assert.assertEquals(2,positionOfCar);
         }
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
         }
     }
 
@@ -275,7 +289,9 @@ public class ParkingLotTest {
             boolean a=checklist.equals(policeList);
             Assert.assertTrue(a);
         }catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
 
@@ -293,7 +309,9 @@ public class ParkingLotTest {
             Assert.assertEquals("1234",locationAndNumberPlate.get(1).numberPlate);
         }
         catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
 
@@ -328,7 +346,7 @@ public class ParkingLotTest {
             ArrayList<Integer> policeList = parkingLot.getMeCarsParkedInDuration(timeToCheck);
             Assert.assertEquals(checklist,policeList);
         }catch (ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
 
@@ -341,7 +359,8 @@ public class ParkingLotTest {
             parkingLot.parkVehicle(vehicle15);
             HashMap<String, Vehicle> policeData = parkingLot.getMeLocationByCarSizeAndDriverType(CarSizeType.SMALL, DriverType.HANDICAP);
         }catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
 
@@ -364,7 +383,8 @@ public class ParkingLotTest {
             ArrayList<String> allParkedCars = parkLot.getMeLocationOfAllParkedCars();
             Assert.assertEquals(checklist,allParkedCars);
         }catch (ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
 }
