@@ -33,7 +33,7 @@ public class ParkingLotTest {
     Calendar now;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         parkingLotOwner=new ParkingLotOwner();
         parkingLot=new ParkingLot(2);
         now = Calendar.getInstance();
@@ -273,6 +273,16 @@ public class ParkingLotTest {
     }
 
     @Test
+    public void givenVehicleWith_ParkedWithDriverTypeAgain_ShouldThrow_Exception() {
+        try{
+            parkingLot.parkVehicle(vehicle12,DriverType.HANDICAP,CarSizeType.SMALL);
+            parkingLot.parkVehicle(vehicle12,DriverType.HANDICAP,CarSizeType.SMALL);
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
+        }
+    }
+
+    @Test
     public void whenPoliceDepartmentAsks_ShouldReturn_LocationOfAllParked_WhiteCars() {
         try{
             ParkingLot parkLot=new ParkingLot(4);
@@ -297,6 +307,18 @@ public class ParkingLotTest {
     }
 
     @Test
+    public void givenCarParked_WithDriverTypeAndNullVehicle_ShouldThrow_Exception() {
+        try{
+            parkingLot.parkVehicle(null, DriverType.NORMAL,CarSizeType.LARGE);
+            parkingLot.parkVehicle(vehicle7, DriverType.HANDICAP);
+            parkingLot.parkVehicle(vehicle8, DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle9, DriverType.NORMAL);
+        }catch(ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+        }
+    }
+
+    @Test
     public void givenBlue_ToyotaCars_shouldReturnLocationAndPlateNumber_ToPoliceDepartment() {
         try{
             parkingLot.parkVehicle(vehicle6,DriverType.NORMAL);
@@ -317,6 +339,19 @@ public class ParkingLotTest {
     }
 
     @Test
+    public void givenNullColourToFindLocationAndPlateNumber_ShouldThrowException() {
+        try {
+            parkingLot.parkVehicle(vehicle6,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle7,DriverType.HANDICAP);
+            parkingLot.parkVehicle(vehicle8,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle9,DriverType.NORMAL);
+            ArrayList<PoliceDataRecord> locationAndNumberPlate = parkingLot.getMeLocationAndNumberPlate(null, "TOYOTA");
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_COLOUR_NOT_FOUND,e.type);
+        }
+    }
+
+    @Test
     public void givenBMWCar_shouldReturn_LocationTo_Police_Department() {
         try {
             parkingLot.parkVehicle(vehicle6, DriverType.NORMAL);
@@ -329,7 +364,22 @@ public class ParkingLotTest {
             ArrayList<Integer> policeList = parkingLot.getMeCarType("BMW");
             Assert.assertEquals(checklist, policeList);
         }catch(ParkingLotException e){
-            e.printStackTrace();
+            Assert.assertEquals(ParkingLotException.ExceptionType.NULL_OBJECT_FOR_VEHICLE,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_PARKED_ALREADY,e.type);
+            Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
+        }
+    }
+
+    @Test
+    public void givenCarParked_AndCarTypeGivenNull_ShouldThrowException() {
+        try{
+            parkingLot.parkVehicle(vehicle6,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle7,DriverType.HANDICAP);
+            parkingLot.parkVehicle(vehicle8,DriverType.NORMAL);
+            parkingLot.parkVehicle(vehicle9,DriverType.NORMAL);
+            ArrayList<PoliceDataRecord> locationAndNumberPlate = parkingLot.getMeLocationAndNumberPlate("BLUE", null);
+        }catch (ParkingLotException e){
+            Assert.assertEquals(ParkingLotException.ExceptionType.TYPE_OF_CAR_NOT_FOUND,e.type);
         }
     }
 
@@ -354,10 +404,10 @@ public class ParkingLotTest {
     @Test
     public void givenSmallHandicapCarParked_ShouldReturnLocationAndInformation_ToPoliceDepartment() {
         try{
-            parkingLot.parkVehicle(vehicle12);
-            parkingLot.parkVehicle(vehicle13);
-            parkingLot.parkVehicle(vehicle14);
-            parkingLot.parkVehicle(vehicle15);
+            parkingLot.parkVehicle(vehicle12,DriverType.HANDICAP,CarSizeType.SMALL);
+            parkingLot.parkVehicle(vehicle13,DriverType.HANDICAP,CarSizeType.SMALL);
+            parkingLot.parkVehicle(vehicle14,DriverType.HANDICAP,CarSizeType.SMALL);
+            parkingLot.parkVehicle(vehicle15,DriverType.NORMAL);
             LinkedHashMap<String,Vehicle> dataToCompare=new LinkedHashMap<>();
             dataToCompare.put("ParkingLotOne-0",vehicle12);
             dataToCompare.put("ParkingLotTwo-0",vehicle13);
@@ -393,4 +443,6 @@ public class ParkingLotTest {
             Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
         }
     }
+
+
 }

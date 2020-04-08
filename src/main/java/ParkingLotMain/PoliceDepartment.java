@@ -2,11 +2,10 @@ package ParkingLotMain;
 
 import EnumPackage.CarSizeType;
 import EnumPackage.DriverType;
+import ParkingException.ParkingLotException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class PoliceDepartment {
     int size;
@@ -16,6 +15,8 @@ public class PoliceDepartment {
     }
 
     public ArrayList<Integer> getColour(String colour) {
+        if(colour==null)
+            throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_COLOUR_NOT_FOUND,"Colour not found");
         ArrayList<Integer> policeList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (ParkingLot.parkingLotOne.get(i) != null)
@@ -28,14 +29,18 @@ public class PoliceDepartment {
         return policeList;
     }
 
-    public ArrayList<PoliceDataRecord> getLocationAndPlate(String colour, String type) {
+    public ArrayList<PoliceDataRecord> getLocationAndPlate(String colour, String typeOfCar) {
+        if(colour==null)
+            throw new ParkingLotException(ParkingLotException.ExceptionType.VEHICLE_COLOUR_NOT_FOUND,"Colour not found");
+        if(typeOfCar==null)
+            throw new ParkingLotException(ParkingLotException.ExceptionType.TYPE_OF_CAR_NOT_FOUND,"Type of Car not found");
         ArrayList<PoliceDataRecord> policeList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (ParkingLot.parkingLotOne.get(i) != null)
-                if (ParkingLot.parkingLotOne.get(i).colour == colour && ParkingLot.parkingLotOne.get(i).typeOfCar == type)
+                if (ParkingLot.parkingLotOne.get(i).colour == colour && ParkingLot.parkingLotOne.get(i).typeOfCar == typeOfCar)
                     policeList.add(new PoliceDataRecord(ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)), ParkingLot.parkingLotOne.get(i).numberPlate));
             if (ParkingLot.parkingLotTwo.get(i) != null)
-                if (ParkingLot.parkingLotTwo.get(i).colour == colour && ParkingLot.parkingLotTwo.get(i).typeOfCar == type)
+                if (ParkingLot.parkingLotTwo.get(i).colour == colour && ParkingLot.parkingLotTwo.get(i).typeOfCar == typeOfCar)
                     policeList.add(new PoliceDataRecord(ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)), ParkingLot.parkingLotTwo.get(i).numberPlate));
         }
         return policeList;
@@ -84,9 +89,9 @@ public class PoliceDepartment {
         ArrayList<String> policeList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             if (ParkingLot.parkingLotOne.get(i) != null)
-                    policeList.add("ParkingLotOne-"+ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)));
+                policeList.add("ParkingLotOne-"+ParkingLot.parkingLotOne.indexOf(ParkingLot.parkingLotOne.get(i)));
             if (ParkingLot.parkingLotTwo.get(i) != null)
-                    policeList.add("ParkingLotTwo-"+ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)));
+                policeList.add("ParkingLotTwo-"+ParkingLot.parkingLotTwo.indexOf(ParkingLot.parkingLotTwo.get(i)));
         }
         return policeList;
     }

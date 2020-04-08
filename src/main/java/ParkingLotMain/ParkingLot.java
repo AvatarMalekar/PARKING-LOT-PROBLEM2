@@ -32,14 +32,9 @@ public class ParkingLot extends ParkingLotSystem{
     }
 
     public void parkVehicle(Vehicle vehicle) {
-        currentNumber++;
-        if(this.currentNumber ==this.totalParkingLotSize) {
-            this.informObserver(true);
-        }
         this.parkingExceptionCheck(vehicle);
         if(decideWhichLot().equals("parkingLotOne")){
             parkingLotOne.set(this.getIndex(null,"parkingLotOne",null),vehicle);
-
             return;}
         if(decideWhichLot().equals("parkingLotTwo")){
             parkingLotTwo.set(this.getIndex(null,"parkingLotTwo",null),vehicle);
@@ -47,10 +42,6 @@ public class ParkingLot extends ParkingLotSystem{
     }
 
     public void parkVehicle(Vehicle vehicle,DriverType type) {
-        currentNumber++;
-        if(this.currentNumber ==this.parkingLotSize) {
-            this.informObserver(true);
-        }
         this.parkingExceptionCheck(vehicle);
         if(decideWhichLot().equals("parkingLotOne")){
             parkingLotOne.set(this.getIndex(type,"parkingLotOne",null),vehicle);
@@ -61,10 +52,6 @@ public class ParkingLot extends ParkingLotSystem{
     }
 
     public void parkVehicle(Vehicle vehicle, DriverType driverType, CarSizeType carSizeType) {
-        currentNumber++;
-        if(this.currentNumber ==this.parkingLotSize) {
-            this.informObserver(true);
-        }
         this.parkingExceptionCheck(vehicle);
         if(decideWhichLot().equals("parkingLotOne")){
             parkingLotOne.set(this.getIndex(driverType,"parkingLotOne",carSizeType),vehicle);
@@ -119,7 +106,6 @@ public class ParkingLot extends ParkingLotSystem{
                     if (lotName.equals("parkingLotOne")) {
                         if (parkingLotOne.get(i) == null && parkingLotOne.get(i - 1) == null && parkingLotOne.get(i - 2) == null)
                             return i - 1; }
-
                     if (lotName.equals("parkingLotTwo")) {
                         if (parkingLotTwo.get(i) == null && parkingLotTwo.get(i - 1) == null && parkingLotTwo.get(i - 2) == null)
                             return i - 1; } } }
@@ -150,6 +136,9 @@ public class ParkingLot extends ParkingLotSystem{
         throw new ParkingLotException("Parking lot is full"); }
 
     public void parkingExceptionCheck (Vehicle vehicle){
+        currentNumber++;
+        if(this.currentNumber ==this.totalParkingLotSize)
+            this.informObserver(true);
         if (this.currentNumber > this.totalParkingLotSize)
             throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOT_IS_FULL, "Parking lot is full");
         if (vehicle == null)
@@ -162,8 +151,8 @@ public class ParkingLot extends ParkingLotSystem{
     public ArrayList<Integer> getMeList(String colour){
         return policeDepartment.getColour(colour); }
 
-    public ArrayList<PoliceDataRecord> getMeLocationAndNumberPlate(String colour, String type){
-        return policeDepartment.getLocationAndPlate(colour,type); }
+    public ArrayList<PoliceDataRecord> getMeLocationAndNumberPlate(String colour, String typeOfVehicle){
+        return policeDepartment.getLocationAndPlate(colour,typeOfVehicle); }
 
     public ArrayList<Integer> getMeCarType(String typeOfCar){
         return policeDepartment.getType(typeOfCar); }
